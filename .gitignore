@@ -1,0 +1,6 @@
+# Local agent instructions (untracked by convention)
+CLAUDE.md
+CLAUDE.local.md
+# Syncthing scratch
+*.sync-conflict-*
+.stfolder/
