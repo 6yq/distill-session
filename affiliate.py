@@ -7,7 +7,7 @@ finds its home + neighbours instead of landing as an island.
 Usage:
   affiliate.py --keywords "tweedie, sipm, gain" [--title "…"] [--top 8] [--dots DIR] [--json]
 
-Dots dir resolves to: --dots, else $PALACE/dots, else ~/.claude/palace/dots.
+Dots dir resolves to: --dots, else $MNEME/dots, else ~/.claude/mneme/dots.
 Prints ranked lanes + candidate related dot ids (paste the best as `- related:: [[id]]`).
 """
 import sys, os, re, json, glob
@@ -34,11 +34,11 @@ def parse(path):
             "title": fm.get("title", ""), "kw": set(kws)}
 
 def resolve_dots(cli):
-    for c in (cli, os.environ.get("PALACE") and os.path.join(os.environ["PALACE"], "dots"),
-              os.path.expanduser("~/.claude/palace/dots")):
+    for c in (cli, os.environ.get("MNEME") and os.path.join(os.environ["MNEME"], "dots"),
+              os.path.expanduser("~/.claude/mneme/dots")):
         if c and Path(c).is_dir() and glob.glob(os.path.join(c, "*.md")):
             return c
-    raise SystemExit("no dots dir found — pass --dots /path/to/palace/dots")
+    raise SystemExit("no dots dir found — pass --dots /path/to/mneme/dots")
 
 def main():
     a = sys.argv[1:]; kw = ""; title = ""; top = 8; dots = None; asjson = False

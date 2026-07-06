@@ -8,9 +8,9 @@ motivation, a guess, the method tried, the result, and what's still open.
 `distill-session` mines the session transcript and writes that structure out as
 markdown dots you can keep, link, and grow.
 
-Pairs with **[palace](https://github.com/6yq/palace)** — a zero-build web viewer
+Pairs with **[Mneme](https://github.com/6yq/Mneme)** — a zero-build web viewer
 for browsing/editing the dots as a graph and roadmap. This skill is the
-*distill* step; palace is the *store + view*.
+*distill* step; Mneme is the *store + view*.
 
 ## What it does
 
@@ -33,9 +33,9 @@ git clone https://github.com/6yq/distill-session ~/.claude/skills/distill-sessio
 ```
 
 Then, in a session, ask the agent to *"distill this session"* /
-*"save what I learned into the palace"*. Requires `jq` for the extractor.
+*"save what I learned into the Mneme"*. Requires `jq` for the extractor.
 
-Dots default to `~/.claude/palace/dots/` (clone palace there, or point elsewhere).
+Dots default to `~/.claude/mneme/dots/` (clone Mneme there, or point elsewhere).
 
 ## Files
 

@@ -1,6 +1,6 @@
 ---
 name: distill-session
-description: Use when the user wants to capture what a Claude Code work session taught into the durable knowledge graph ("distill this session", "save what I learned", "add to palace", "make dots from what I did", end-of-session capture). Distills past sessions into atomic linked "dots" (motivation, guess->method->result, on-going items, keywords) stored as markdown in ~/.claude/palace/dots and viewable in the palace graph. Also use when reviewing or relinking existing dots.
+description: Use when the user wants to capture what a Claude Code work session taught into the durable knowledge graph ("distill this session", "save what I learned", "add to Mneme", "make dots from what I did", end-of-session capture). Distills past sessions into atomic linked "dots" (motivation, guess->method->result, on-going items, keywords) stored as markdown in ~/.claude/mneme/dots and viewable in the Mneme graph. Also use when reviewing or relinking existing dots.
 ---
 
 # Distill Session — sessions into knowledge dots
@@ -8,10 +8,10 @@ description: Use when the user wants to capture what a Claude Code work session 
 ## What this is
 
 Turn the reasoning of a Claude Code session into durable, linked **dots** — atomic
-notes in a personal knowledge graph ("the palace"). Each dot is one idea: its
+notes in a personal knowledge graph ("the Mneme"). Each dot is one idea: its
 motivation, the guess->method->result logic line, what is still open, keywords,
-and typed links to other dots. Dots live as markdown in `~/.claude/palace/dots/`,
-are git-managed, and are browsed/edited in the palace web viewer.
+and typed links to other dots. Dots live as markdown in `~/.claude/mneme/dots/`,
+are git-managed, and are browsed/edited in the Mneme web viewer.
 
 This is the generalized, standalone version of the session-mining logic that
 `my-slides` uses to build decks. `my-slides` reads sessions to make a talk and
@@ -34,7 +34,7 @@ Project dir -> slug: `/` -> `-` (e.g. `/home/you/proj/foo` ->
 ## Distilling from a repo, not a session
 
 Sometimes the input is a **project directory / old repo**, not a session jsonl
-("organize what I've done", back-filling the palace from years of work). Then read
+("organize what I've done", back-filling the Mneme from years of work). Then read
 **backbones first**, never plough the source or data. This is a fan-out job — one
 subagent per work stream returning a structured digest, then synthesize the taxonomy
 and write dots yourself. Hard-won rules:
@@ -95,7 +95,7 @@ holds the specific vocabulary, not this skill.
    - a **question** left open,
    - a **milestone** (a real checkpoint — a passing validation, a merged MR).
 
-3. **Write each dot** with the schema below into `~/.claude/palace/dots/<id>.md`.
+3. **Write each dot** with the schema below into `~/.claude/mneme/dots/<id>.md`.
    `id` = `YYYYMMDD-slug` (date-prefixed, unique, stable — it is the filename
    stem and the wikilink target). Use the session's actual date; if summarizing
    several, use the latest. Never invent figure paths — use the real ones the
@@ -111,10 +111,10 @@ holds the specific vocabulary, not this skill.
    worthless — but propose links from real overlap, don't force them.
 
 5. **Reindex.** Regenerate `INDEX.md`:
-   `cd ~/.claude/palace && python3 viewer/serve.py --reindex` (or the viewer
-   rebuilds it on load). Commit: `git -C ~/.claude/palace add -A && git ... commit`.
+   `cd ~/.claude/mneme && python3 viewer/serve.py --reindex` (or the viewer
+   rebuilds it on load). Commit: `git -C ~/.claude/mneme add -A && git ... commit`.
 
-> If a **palace MCP server** is connected, prefer its typed tools —
+> If a **Mneme MCP server** is connected, prefer its typed tools —
 > `search` / `get` / `neighbors` / `affiliate` / `upsert` / `reindex` — over the
 > scripts + file-writes above: same effect, structured, no shelling out.
 
@@ -153,7 +153,7 @@ One or two sentences: why this came up, what problem it serves.
   (a measured outcome), `question` (open problem), `milestone` (checkpoint),
   `project` (a hub node for a work stream).
 - **status** — `open` (still active), `done`, `parked`. `status: open` is how the
-  palace surfaces on-going items across all projects.
+  Mneme surfaces on-going items across all projects.
 - **milestone** — `true` marks a real checkpoint; the viewer stars it and it can
   be `git tag`-ged.
 - **keywords** — 3–6 lowercase, *specific* technical terms: methods, quantities,
@@ -180,7 +180,7 @@ are creating in the same pass).
 
 ## Replay the logic chain — the point of the links
 
-A dot is atomic, but a *study* is a **chain of reasoning**, and the palace earns its
+A dot is atomic, but a *study* is a **chain of reasoning**, and the Mneme earns its
 keep only if you can walk a work stream start-to-finish and **replay that chain** —
 the same arc you'd stand up and present. That arc is fixed (it's the `my-slides` deck
 skeleton): **problem → guess/theory → method → result (numbers) → cross-check →
