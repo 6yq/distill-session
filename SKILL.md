@@ -49,7 +49,7 @@ and write dots yourself. Hard-won rules:
   result `.md` even when git history looks stale). Chinese commit messages carry
   milestone/date signal — keep them.
 - **Never read** `.h5/.hdf5/.parquet/.pq/.root/.rtraw/.npz`, big `.csv`, `.pdf`/`.png`
-  figures, framework source trees (JUNOsw/TAOsw internals), or full `.ipynb`. Measured
+  figures, framework source trees (a large shared framework's internals), or full `.ipynb`. Measured
   numbers usually live in those gitignored artifacts, so a backbone-only pass **cannot**
   recover them: be honest — cite the artifact `path` (and page) or leave `results: []`
   rather than inventing. Skip machine-generated blocks (`#+begin_example`, NUTS/sampler
@@ -74,10 +74,10 @@ and write dots yourself. Hard-won rules:
 - **A thin repo yields no dots.** Placeholder/data-staging/clone repos with no user
   commits and no numbers: say so and move on rather than padding.
 
-See `docs/naming.md` (the `Scope:Subject` pattern) and the palace `CLAUDE.md` for the
-project vocabulary. Reuse existing lanes; `Calib` is the umbrella for detector
-calibration (bench tests, commissioning, param-DB all fold in), and waveform-level
-work is `FSMP`, never `Reco` (which is event vertex/energy reconstruction).
+See `docs/naming.md` (the `Scope:Subject` pattern) and your own `CLAUDE.md` for the
+project vocabulary. Reuse existing lanes rather than coining synonyms, and keep a Scope
+as an umbrella instead of splitting every sub-effort into its own lane — your `CLAUDE.md`
+holds the specific vocabulary, not this skill.
 
 ## Workflow
 
