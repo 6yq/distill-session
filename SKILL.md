@@ -114,6 +114,10 @@ holds the specific vocabulary, not this skill.
    `cd ~/.claude/palace && python3 viewer/serve.py --reindex` (or the viewer
    rebuilds it on load). Commit: `git -C ~/.claude/palace add -A && git ... commit`.
 
+> If a **palace MCP server** is connected, prefer its typed tools —
+> `search` / `get` / `neighbors` / `affiliate` / `upsert` / `reindex` — over the
+> scripts + file-writes above: same effect, structured, no shelling out.
+
 Also check the project's own memory dir (`MEMORY.md`) for standing context before
 distilling — it tells you what the user already considers known.
 
