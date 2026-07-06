@@ -56,11 +56,17 @@ and write dots yourself. Hard-won rules:
   logs) in `.org` notes.
 - **Dedup by (remote-url, branch), not by directory.** Sibling worktrees/checkouts of
   the same origin are ONE stream — merge them.
+- **Cloned ≠ worked on — gate on authorship FIRST.** Before distilling a repo at all,
+  confirm the user actually committed to it: `git shortlog -sne --all` (or
+  `git log --all --pretty='%an|%ae' | grep -iE '<their identities>'`). Zero of their
+  commits — or a lone stray commit in a repo whose real files are authored by others —
+  means it's a **clone, not a work stream**: skip it, or drop the lane if you already
+  made one. Map the user's several identities (name + every email) before counting.
 - **Attribute honestly.** Group/framework repos are multi-author; credit only the user's
-  commits (they may commit under several identities — map them). For an official-framework
-  repo the contribution may be a data payload committed by a maintainer, or a topic branch
-  with no merge commits — cross-reference symlinks/artifacts and sibling dots for MR ids,
-  not just `git log` authorship.
+  commits. For an official-framework repo the contribution may be a data payload committed
+  by a maintainer, or a topic branch with no merge commits — cross-reference
+  symlinks/artifacts and sibling dots for MR ids, not just `git log` authorship. Weight a
+  shared repo's dots to the user's actual slice, not its whole history.
 - **Dates:** non-git working dirs → take the date from the filename/mtime; otherwise
   trust git *author* dates over checkout mtimes.
 - **Don't inherit a guess.** If the prompt guesses an acronym/experiment, verify it —
@@ -68,8 +74,10 @@ and write dots yourself. Hard-won rules:
 - **A thin repo yields no dots.** Placeholder/data-staging/clone repos with no user
   commits and no numbers: say so and move on rather than padding.
 
-See `docs/naming.md` in the palace for the `project:` convention (experiments
-`TAO`/`OSIRIS`/`JUNO`/`JNE`, plus non-experiment buckets `Methods:`/`Teaching:`).
+See `docs/naming.md` (the `Scope:Subject` pattern) and the palace `CLAUDE.md` for the
+project vocabulary. Reuse existing lanes; `Calib` is the umbrella for detector
+calibration (bench tests, commissioning, param-DB all fold in), and waveform-level
+work is `FSMP`, never `Reco` (which is event vertex/energy reconstruction).
 
 ## Workflow
 
