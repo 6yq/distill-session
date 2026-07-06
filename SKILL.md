@@ -31,6 +31,46 @@ Project dir -> slug: `/` -> `-` (e.g. `/home/you/proj/foo` ->
 `-home-you-proj-foo`). Sessions live at `~/.claude/projects/<slug>/*.jsonl`
 (the extractor honors `$CLAUDE_CONFIG_DIR` if you set one).
 
+## Distilling from a repo, not a session
+
+Sometimes the input is a **project directory / old repo**, not a session jsonl
+("organize what I've done", back-filling the palace from years of work). Then read
+**backbones first**, never plough the source or data. This is a fan-out job — one
+subagent per work stream returning a structured digest, then synthesize the taxonomy
+and write dots yourself. Hard-won rules:
+
+- **Backbone read order** (stop when purpose is clear): `README*`/`.org`, `Makefile`
+  targets, `CLAUDE.md`/`AGENTS.md`, then narrative docs — `HANDOFF*`, `methodology_*`,
+  `why_*`, `proof_scheme_*`, `debate_*`, `RESULTS.md`, `record.md`, `note.md`,
+  `compare*.md`, any `## Results` section — plus stray `*.log`, entry-point docstrings,
+  and `__init__`/`setup.py` exports when a README is absent or was deleted.
+- **CLAUDE.md and HANDOFF/record docs are first-class truth**, often richer than git
+  log; the newest, most substantive work may be *deliberately uncommitted* (read the
+  result `.md` even when git history looks stale). Chinese commit messages carry
+  milestone/date signal — keep them.
+- **Never read** `.h5/.hdf5/.parquet/.pq/.root/.rtraw/.npz`, big `.csv`, `.pdf`/`.png`
+  figures, framework source trees (JUNOsw/TAOsw internals), or full `.ipynb`. Measured
+  numbers usually live in those gitignored artifacts, so a backbone-only pass **cannot**
+  recover them: be honest — cite the artifact `path` (and page) or leave `results: []`
+  rather than inventing. Skip machine-generated blocks (`#+begin_example`, NUTS/sampler
+  logs) in `.org` notes.
+- **Dedup by (remote-url, branch), not by directory.** Sibling worktrees/checkouts of
+  the same origin are ONE stream — merge them.
+- **Attribute honestly.** Group/framework repos are multi-author; credit only the user's
+  commits (they may commit under several identities — map them). For an official-framework
+  repo the contribution may be a data payload committed by a maintainer, or a topic branch
+  with no merge commits — cross-reference symlinks/artifacts and sibling dots for MR ids,
+  not just `git log` authorship.
+- **Dates:** non-git working dirs → take the date from the filename/mtime; otherwise
+  trust git *author* dates over checkout mtimes.
+- **Don't inherit a guess.** If the prompt guesses an acronym/experiment, verify it —
+  flag unresolved, and reconcile the experiment prefix from concrete in-repo tokens.
+- **A thin repo yields no dots.** Placeholder/data-staging/clone repos with no user
+  commits and no numbers: say so and move on rather than padding.
+
+See `docs/naming.md` in the palace for the `project:` convention (experiments
+`TAO`/`OSIRIS`/`JUNO`/`JNE`, plus non-experiment buckets `Methods:`/`Teaching:`).
+
 ## Workflow
 
 1. **Extract.** Run the extractor for the target session(s). For a long session,
@@ -117,6 +157,34 @@ One or two sentences: why this came up, what problem it serves.
 Keep the `[[id]]` exact — it must equal an existing filename stem (or a dot you
 are creating in the same pass).
 
+## Replay the logic chain — the point of the links
+
+A dot is atomic, but a *study* is a **chain of reasoning**, and the palace earns its
+keep only if you can walk a work stream start-to-finish and **replay that chain** —
+the same arc you'd stand up and present. That arc is fixed (it's the `my-slides` deck
+skeleton): **problem → guess/theory → method → result (numbers) → cross-check →
+summary → open question**. So distilling a stream is not "drop N atomic notes next to
+a hub"; it is *laying the story's spine as typed edges*:
+
+- The **hub** (`type: project`) reads as the talk's opening **and** summary in one
+  short paragraph: the problem, the approach, the headline number, the current state.
+  If someone read only the hub they should get the abstract.
+- A **`next` chain** orders the dots the way the study actually unfolded
+  (theory → method → result → cross-check → outlook). Following `next` from the first
+  step *is* the roadmap the viewer draws — make it walkable, not a bag of siblings.
+- **`motivates`** carries the *why*: a problem or a **negative result** points to the
+  fix it triggered. Keep dead-ends in the graph — a biased result that `motivates` its
+  correction is exactly the reasoning a reader needs, and it's what a good talk shows.
+- **`method`** binds each applied step to the shared-toolbox dot instead of re-deriving
+  it; **`part-of`** only groups. `part-of` alone is a star with no story.
+
+Litmus test: can you narrate the project in one breath by following its edges —
+"needed X *(hub)* → tried Y, came out biased *(result)* → because Z *(insight)* →
+so did W *(method)* → gave N *(result)* → cross-checked by V → next is U *(question)*"?
+If the edges don't let you say that sentence, the spine is missing; add the ordering.
+A well-linked project exports to a deck almost directly: hub → opening, the `next`
+spine → body sections, `question`/`open` dots → outlook.
+
 ## Quality bar
 
 - Atomic: one idea per dot. If the title needs "and", split it.
@@ -124,12 +192,19 @@ are creating in the same pass).
 - Linked: at least one typed edge unless it is a brand-new island.
 - Honest: record failed guesses too — a dead end is knowledge.
 - Terse: fragments, numbers, real paths. Not prose.
+- Walkable: a project's dots form a `next`/`motivates` spine you can narrate
+  end-to-end, not a `part-of` star. If you can't replay the logic chain, it isn't done.
 
 ## Red flags — you are doing it wrong if
 
 - You Read a raw `.jsonl` instead of using the extractor.
 - One session became one 40-line mega-dot instead of 2–4 atomic ones.
 - No `## Links` / every dot is an island.
+- A project is a `part-of` star with no `next`/`motivates` spine — you can't replay
+  its logic chain, so it reads as trivia, not a study.
 - Figure paths are placeholders instead of the session's real outputs.
 - Frontmatter YAML is malformed (breaks the viewer parser) — keep it flat,
   `keywords` is the only list, in `[a, b, c]` flow form.
+- (repo mode) You opened data/figure artifacts or framework source, invented numbers a
+  backbone can't show, credited a multi-author branch entirely to the user, or padded a
+  placeholder repo into dots instead of skipping it.
