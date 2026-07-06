@@ -101,10 +101,14 @@ work is `FSMP`, never `Reco` (which is event vertex/energy reconstruction).
    several, use the latest. Never invent figure paths — use the real ones the
    session produced.
 
-4. **Link.** Grep existing dot ids (`ls ~/.claude/palace/dots/`) and add typed
-   edges in the `## Links` section connecting the new dot to prior ones. This is
-   the point of the graph — an unlinked dot is nearly worthless. Propose links,
-   don't force them.
+4. **Affiliate, then link.** Extract the dot's keywords first (see the field guide
+   below), then let them place it: run
+   `~/.claude/skills/distill-session/affiliate.py --keywords "k1, k2, …" --title "…"`.
+   It ranks which existing project lane the keywords fit (reuse that lane unless the
+   work is genuinely new) and lists candidate `related` dots by keyword overlap. Use
+   its output to choose `project:` and to seed the `## Links` typed edges to prior
+   dots. This closes the loop keywords → class → neighbours. An unlinked dot is nearly
+   worthless — but propose links from real overlap, don't force them.
 
 5. **Reindex.** Regenerate `INDEX.md`:
    `cd ~/.claude/palace && python3 viewer/serve.py --reindex` (or the viewer
@@ -148,7 +152,12 @@ One or two sentences: why this came up, what problem it serves.
   palace surfaces on-going items across all projects.
 - **milestone** — `true` marks a real checkpoint; the viewer stars it and it can
   be `git tag`-ged.
-- **keywords** — lowercase, a handful; the search/filter axis.
+- **keywords** — 3–6 lowercase, *specific* technical terms: methods, quantities,
+  tools, physics objects (`tweedie`, `ser`, `vertex-bias`, `levenberg-marquardt`) —
+  never vague filler (`analysis`, `study`, `result`). They are the search/filter axis
+  **and** the affiliation key: the sharper they are, the better `affiliate.py` places
+  the dot in the right lane and finds its neighbours. Prefer terms that already appear
+  in sibling dots' `keywords:` so the graph coheres instead of fragmenting on synonyms.
 
 ### Typed edges (in `## Links`)
 
